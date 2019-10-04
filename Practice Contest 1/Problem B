@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+ 
+int main() {
+	int n, i=0, s=0;						//i is an iterator, s is #chars revealed per grille
+	cin>>n;
+	vector<pair<int,int>> visible1, visible2, visible3, visible4;
+	char grille[10][10], c;
+	char message[10][10];
+	int x, y;								//coords
+	while(i<n*n){
+		cin>>c;
+		grille[i/n][i%n]=c;
+		if(c=='.'){
+			s++;
+			x=i/n;
+			y=i%n;
+			visible1.push_back({x,y});
+			visible2.push_back({y,n-1-x});
+			visible3.push_back({n-1-x,n-1-y});
+			visible4.push_back({n-1-y,x});
+		}
+		i++;
+	}
+	sort(visible1.begin(),visible1.end());
+	sort(visible2.begin(),visible2.end());
+	sort(visible3.begin(),visible3.end());
+	sort(visible4.begin(),visible4.end());
+	for(int i=0;i<s;i++){
+		cin>>c;
+		message[visible1[i].first][visible1[i].second]=c;
+	}
+	for(int i=0;i<s;i++){
+		cin>>c;
+		message[visible2[i].first][visible2[i].second]=c;
+	}
+	for(int i=0;i<s;i++){
+		cin>>c;
+		message[visible3[i].first][visible3[i].second]=c;
+	}
+	for(int i=0;i<s;i++){
+		cin>>c;
+		message[visible4[i].first][visible4[i].second]=c;
+	}
+	string msg="";
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			if('a'<=message[i][j] && 'z'>=message[i][j])
+				msg+=message[i][j];
+		}
+	}
+	if(msg.length()==n*n){
+	cout<<msg;
+	}
+	else cout<<"invalid grille";
+	return 0;
+}
