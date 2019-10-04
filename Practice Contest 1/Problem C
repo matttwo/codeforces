@@ -1,0 +1,32 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+	int n, c, i=0;
+	int cmax, cmin, csum;
+	int total_ranges=0;
+	cin>>n;
+	int values[100];
+	while(cin>>c){
+		values[i]=c;
+		i++;
+	}
+	
+	for(int i=0;i<n;i++){
+		cmax=values[i];
+		cmin=values[i];
+		csum=values[i];
+		for(int j=i+1;j<n;j++){
+			csum+=values[j];				//keep a running total of the range sum 
+			// cout<<"sum from "<<i<<" to "<<j<<" is "<<csum<<'\n';
+			cmax=max(values[j],cmax);
+			cmin=min(values[j],cmin);
+			if(csum== (cmax)*(cmax+1)/2 - (cmin)*(cmin-1)/2){
+				total_ranges++;
+			//	cout<<i<<" "<<j<<'\n';
+			}
+		}
+	}
+	cout<<total_ranges;
+	return 0;
+}
