@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+//checks if the given limit is possible
+bool possible(int limit, int k, int n, int *groups){            
+	int totalGroups=1;
+	int sum=0;
+	for(int *i=groups;i<groups+n;i++){
+		if(sum+*i<=limit){
+			sum+=*i;
+		}
+		else{
+			sum=*i;
+			totalGroups++;
+		}
+	}
+	if(totalGroups<=k){
+		return true;
+	}
+	return false;
+}
+int main() {
+	int n, k, p;
+	int groups[100];
+	cin>>n>>k;
+	int i=0, total=0;
+	while(cin>>p){
+		total+=p;
+		groups[i]=p;
+		i++;
+	}
+	int lb=total/k;
+	int ub=total;
+	int cur;
+  //binary search for the correct limit
+	while(lb!=ub){
+		cur=(lb+ub)/2;
+		if(possible(cur,k,n,groups)){
+			ub=cur;
+		}
+		else{
+			lb=cur+1;
+		}
+	}
+	cout<<lb;
+	return 0;
+}
