@@ -28,6 +28,7 @@ int main() {
 	sort(visible2.begin(),visible2.end());
 	sort(visible3.begin(),visible3.end());
 	sort(visible4.begin(),visible4.end());
+	
 	for(int i=0;i<s;i++){
 		cin>>c;
 		message[visible1[i].first][visible1[i].second]=c;
@@ -51,7 +52,7 @@ int main() {
 				msg+=message[i][j];
 		}
 	}
-	if(msg.length()==n*n){
+	if(msg.length()==n*n && n%2==0 && s==(n*n)/4){
 	cout<<msg;
 	}
 	else cout<<"invalid grille";
