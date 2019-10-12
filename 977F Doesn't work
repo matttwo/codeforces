@@ -1,0 +1,76 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> lics(unordered_map<int, vector<int>> &v, int n) {
+	vector<int> max(1, 1);
+	vector<int> cur;
+	unordered_map<int, int> posmap;
+	for (int i = 1; i <= n+1; i++) {
+	    if (v.find(i) == v.end()) {
+// 		if (!v[i]) {
+			if (cur.size() > max.size()) {
+				max = cur;
+			}
+			cur.clear();
+			continue;
+		}
+		vector<int> pos = v[i];
+    	    auto it = lower_bound(pos.begin(), pos.end(), cur.back());
+    	    if (it != pos.end())
+    	        posmap[i] = *it;
+    // 	  if (posmap.find(i) == posmap.end()) {
+    // 	      posmap[i] = *it;
+    // 	  } else {
+    // 	      auto it = upper_bound(pos.begin(), pos.end(), posmap[i]);
+    // 	      posmap[i] = *it;
+    // 	  }
+    	  printf("%d with position %d\n", i, posmap[i]);
+		if (cur.empty()) {
+			cur.push_back(posmap[i]);
+		} else {
+			int last = cur.back();
+			if (posmap[i] > last) {
+				cur.push_back(posmap[i]);
+				for (auto x : cur) {
+					cout << x << " ";
+				}
+				cout << endl;
+			}
+			else {
+				if (cur.size() > max.size()) {
+					max = cur;
+				}
+				cur = vector<int>(1, posmap[i]);
+			}
+		}
+	}
+	return max;
+}
+
+int main() {
+	// your code goes here
+	int n, c, maxin;
+	maxin = 0;
+	cin >> n;
+// 	vector<int> v(1e9+1,0);
+	unordered_map<int, vector<int>> v;
+	for (int i = 1; i <= n; i++) {
+		cin >> c;
+		if (v.find(c) == v.end()) {
+// 		if(!v[c]){
+			v[c].push_back(i);
+			maxin = max(maxin, c);
+		}
+	}
+	/*for (auto x : v) {
+		cout << x << " ";
+	}
+	cout << endl; */
+	vector<int> res = lics(v, maxin);
+	cout << res.size() << "\n";
+	for (auto x : res)
+		cout << x << " ";
+	
+	return 0;
+}
