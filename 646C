@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int t, n, x, u, v;
+	cin>>t;
+	for(int i=0; i<t; i++){
+		int count = 1;
+		bool removed=false;
+		cin>>n>>x;
+		vector<vector<int>> e(n+1);
+		vector<int> degrees(n+1,0);
+		vector<bool> visited(n+1, false);
+		for(int j=1; j<=n-1; j++){
+			cin>>u>>v;
+			e[u].push_back(v);
+			e[v].push_back(u);
+			degrees[u]++; degrees[v]++;
+		}
+		if(degrees[x]==1 || degrees[x]==0){
+			cout << "Ayush\n";
+			continue;
+		}
+		queue<int> q; q.push(x);
+		while(!q.empty()){
+			int cur = q.front(); q.pop();
+			visited[cur]=true;
+			count+= (degrees[cur]-1);
+			for(int next : e[cur]){
+				if(!visited[next]){
+					q.push(next);
+				}
+			}
+		}
+		if(count%2){
+			cout << "Ayush\n";
+		}
+		else{
+			cout << "Ashish\n";
+		}
+	}
+	return 0;
+}
