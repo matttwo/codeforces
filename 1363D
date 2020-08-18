@@ -1,0 +1,95 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define REP(i,n) for(int i=0;i<(n);++i)
+#define FOR(i,a,b) for(int i=(a);i<=(b);++i)
+#define FORD(i,a,b) for(int i=(a);i>=(b);--i)
+#define PB push_back
+#define ar array
+typedef long long ll;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+
+// const ll INF = 0x3f3f3f3f3f3f3f3fLL;
+const int INF = 0x3f3f3f3f;
+const int mxN = 1000;
+int t, n, k;
+unordered_set<int> s[mxN];
+
+int query(int a, int b){
+	int siz=0;
+	FOR(i, a, b){
+		siz+=s[i].size();
+	}
+	cout<<"? "<<siz<<" ";
+	FOR(i, a, b){
+		for(auto u: s[i])
+			cout<<u<<" ";
+	}
+	cout<<'\n'<<flush;
+	int ret; 
+	cin>>ret;
+	return ret;
+}
+
+void solve(){
+	cout<<"? "<<n<<" ";
+	FOR(i, 1, n)
+		cout<<i<<" ";
+	cout<<'\n'<<flush;
+	int mx;
+	cin>>mx;
+	
+	int a=0, b=k-1;
+	// int pmax=query(a, b);
+	while(a<b){
+		int cmax=query(a, a+(b-a)/2);
+		// cout<<"cmax = "<<cmax<<'\n'<<flush;
+		if(cmax==mx){
+			b=a+(b-a)/2;
+		} else{
+			a=a+(b-a)/2+1;
+		}
+	}
+	//make one last query for all indices outside of S_a
+	cout<<"? "<<n-s[a].size()<<" ";
+	FOR(i, 1, n){
+		if(s[a].count(i))
+			continue;
+		cout<<i<<" ";
+	}
+	cout<<'\n'<<flush;
+	int ans;
+	cin>>ans;
+	cout<<"! ";
+	REP(i, k){
+		if(i==a)
+			cout<<ans<<" ";
+		else
+			cout<<mx<<" ";
+	}
+	cout<<'\n'<<flush;
+	string ss;
+	cin>>ss;
+	if(ss=="Incorrect")
+		exit(0);
+	REP(i, k)
+		s[i].clear();
+}
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin>>t;
+	while(t--){
+		cin>>n>>k;
+		REP(i, k){
+			int c; cin>>c;
+			REP(j, c){
+				int d;
+				cin>>d;
+				s[i].insert(d);
+			}
+		}
+		solve();
+	}
+	return 0;
+}
